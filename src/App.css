@@ -1,0 +1,315 @@
+/* src/App.css
+   Updated dark theme and hero/card/button styles for Crime & Carnage
+   Paste/replace this file and restart dev server.
+*/
+
+/* ---------------------------------------------------
+   Tailwind Directives (if used here, they must remain)
+--------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------
+   ORIGINAL CRA STYLES (kept where relevant)
+--------------------------------------------------- */
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------
+   Crime & Carnage — DARK THEME SYSTEM TOKENS
+--------------------------------------------------- */
+:root {
+  --background: #060606;         /* main background */
+  --foreground: #e6eef8;         /* bright text */
+  --foreground-soft: #c4ccd6;    /* softer text */
+  --card: #0b0b0c;               /* card surfaces */
+  --card-muted: #0f0f10;         /* darker panels */
+  --muted: #9aa4af;              /* secondary text */
+  --border: rgba(255, 255, 255, 0.06);
+  --primary: #d90429;            /* crime red */
+  --primary-glow: #ff2a4f;       /* neon crime glow */
+}
+
+/* page body */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  transition: background-color 0.25s ease, color 0.25s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------------------------------------------------
+   Utility classes used across pages
+--------------------------------------------------- */
+
+/* Backgrounds & cards */
+.bg-card {
+  background-color: var(--card);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+  color: var(--foreground);
+}
+
+/* slightly darker panel used for text blocks */
+.bg-card-muted {
+  background-color: var(--card-muted);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* Text utilities */
+.text-muted-foreground { color: var(--muted); }
+.text-foreground-soft { color: var(--foreground-soft); }
+
+/* Borders */
+.border-border { border-color: var(--border); }
+
+/* Primary accents */
+.text-primary { color: var(--primary); }
+.bg-primary { background-color: var(--primary); }
+.bg-primary-glow { background-color: var(--primary-glow); }
+
+/* Buttons */
+.button-dark {
+  background-color: var(--primary);
+  color: white;
+  padding: 9px 18px;
+  border-radius: 8px;
+  transition: background 0.15s ease, transform 0.12s ease;
+  box-shadow: 0 6px 18px rgba(209,4,41,0.18), inset 0 -2px 0 rgba(0,0,0,0.12);
+}
+.button-dark:hover {
+  background-color: var(--primary-glow);
+  transform: translateY(-2px);
+}
+
+/* subtle outline button */
+.button-outline {
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--foreground);
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+/* --------------------------------------------------
+   Global hero helpers and overlay
+   (reduce overlay opacity so hero image is visible)
+-------------------------------------------------- */
+
+/* previously very dark; lowered to reveal BG more */
+.dark-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.38); /* was 0.65 — reduced for visibility */
+  z-index: 1;
+}
+
+.dark-overlay > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* hero container */
+.hero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* big title style (serif feel) */
+.hero .hero-title {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 5vw, 5.25rem);
+  line-height: 1.02;
+  margin: 0 0 12px;
+  color: var(--foreground);
+  letter-spacing: -0.02em;
+  text-shadow: 0 8px 40px rgba(0,0,0,0.7);
+}
+
+/* subtitle under the main headline */
+.hero .hero-sub {
+  color: var(--foreground-soft);
+  font-size: clamp(0.95rem, 1.2vw, 1.25rem);
+  margin-bottom: 22px;
+  max-width: 48rem;
+  opacity: 0.95;
+}
+
+/* CTA group */
+.hero .hero-ctas {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* primary CTA look */
+.hero .hero-cta {
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-glow) 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(217,4,41,0.2);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* secondary CTA */
+.hero .hero-cta-outline {
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--foreground);
+  background: rgba(255,255,255,0.02);
+}
+
+/* subtle bottom vignette so foreground pops */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42%;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
+  z-index: 3;
+}
+
+/* ---------------------------------------------------
+   Card / article appearance improvements
+--------------------------------------------------- */
+
+.article-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+}
+
+/* card image overlay to ensure text readable */
+.article-card .card-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.55));
+}
+
+/* excerpt/text inside card */
+.article-card .card-body {
+  padding: 16px;
+  color: var(--foreground);
+}
+
+/* small labels / badges on top-right of images */
+.badge-top {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.55);
+  color: var(--foreground);
+  font-weight: 700;
+  font-size: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* footer & small UI elements */
+.site-footer {
+  background: rgba(0,0,0,0.02);
+  border-top: 1px solid rgba(255,255,255,0.03);
+  padding: 36px 0;
+  color: var(--foreground-soft);
+}
+
+/* ---------------------------------------------------
+   Ticker small tweaks to improve readability
+--------------------------------------------------- */
+.breaking-ticker {
+  width: 100%;
+  overflow: hidden;
+  background: var(--primary);
+  border-top: 1px solid rgba(0,0,0,0.45);
+  border-bottom: 1px solid rgba(0,0,0,0.45);
+  padding: 8px 0;
+}
+.breaking-ticker .ticker-item {
+  color: white;
+  font-weight: 700;
+  margin-right: 56px;
+  font-size: 0.95rem;
+}
+
+/* ---------------------------------------------------
+   Navbar look (strong dark + red active)
+--------------------------------------------------- */
+.site-nav {
+  background: linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.35));
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.site-nav a,
+.site-nav button {
+  color: var(--foreground);
+}
+.site-nav .active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 6px 18px rgba(217,4,41,0.16);
+  border-radius: 8px;
+}
+
+/* small helpers (rounded shadows, spacing) */
+.rounded-lg {
+  border-radius: 12px;
+}
+.shadow-soft {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+}
+
+/* ---------------------------------------------------
+   Accessibility / responsive tweaks
+--------------------------------------------------- */
+@media (max-width: 768px) {
+  .hero { min-height: 64vh; padding: 28px 12px; }
+  .hero .hero-title { font-size: 2.5rem; }
+  .hero .hero-sub { font-size: 0.95rem; }
+}
+
+/* ---------------------------------------------------
+   END — no JSX or HTML here
+--------------------------------------------------- */

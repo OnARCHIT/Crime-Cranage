@@ -1,0 +1,178 @@
+/* src/index.css 
+   Tailwind base/components/utilities + site-wide custom properties.
+   Use hsl(var(--background)) etc. in your components.
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Basic resets / system font */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+code {
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* -- design tokens (use with hsl(var(--...))) */
+:root {
+  --background: 0 0% 6%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 3.9%;
+  --primary: 0 80% 35%; 
+  --primary-glow: 0 70% 28%;  
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 65%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --ring: 0 0% 3.9%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --radius: 0.5rem;
+}
+
+/* dark theme tokens — add class="dark" on <html> or wrapper element to activate */
+.dark {
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}
+
+/* small set of base utilities using Tailwind's @apply (safe uses) */
+@layer base {
+  /* set default background/text using the variables above */
+  html, body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  /* improved focus states */
+  :focus {
+    outline: none;
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.12);
+  }
+
+  /* debug wrapper helper used by Emergent or editor overlays */
+  [data-debug-wrapper="true"] {
+    display: contents !important;
+  }
+
+  [data-debug-wrapper="true"] > * {
+    margin: inherit;
+    padding: inherit;
+    gap: inherit;
+    column-gap: inherit;
+    row-gap: inherit;
+    border: inherit;
+  }
+}
+
+/* --------------------------
+   Breaking News Ticker styles
+   -------------------------- */
+
+.breaking-ticker {
+  width: 100%;
+  overflow: hidden;
+  background: #b30000; /* RED background */
+  border-top: 1px solid #660000;
+  border-bottom: 1px solid #660000;
+  padding: 10px 0;
+  position: relative;
+}
+
+.ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: tickerMove 50s linear infinite;
+  align-items: center;
+  will-change: transform;
+}
+
+.ticker-item {
+  color: white;
+  font-weight: 600;
+  margin-right: 60px;
+  font-size: 0.95rem;
+  letter-spacing: 0.4px;
+  display: inline-block;
+}
+
+/* Move LEFT → RIGHT for news ticker */
+@keyframes tickerMove {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* small fade at edges to make ticker look neat (optional) */
+.breaking-ticker::before,
+.breaking-ticker::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 64px;
+  pointer-events: none;
+  z-index: 10;
+}
+.breaking-ticker::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(179,0,0,1), rgba(179,0,0,0));
+}
+.breaking-ticker::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(179,0,0,1), rgba(179,0,0,0));
+}
