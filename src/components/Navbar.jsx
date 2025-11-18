@@ -6,6 +6,7 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false); // mobile main menu
   const [articlesOpen, setArticlesOpen] = useState(false); // mobile articles submenu
   const [desktopArticlesOpen, setDesktopArticlesOpen] = useState(false); // desktop click toggle
+  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
 
   const navLinks = [
@@ -18,11 +19,11 @@ export const Navbar = () => {
   ];
 
   const articles = [
-    { name: "Article 1", path: "/article/dahmer" },
-    { name: "Article 2", path: "/article/jaishankar" },
-    { name: "Article 3", path: "/article/sharma" },
-    { name: "Article 4", path: "/article/gacy" },
-    { name: "Article 5", path: "/article/jha" },
+    { name: "Article 1", path: "/article/jaishankar" },
+    { name: "Article 2", path: "/article/sharma" },
+    { name: "Article 3", path: "/article/gacy" },
+    { name: "Article 4", path: "/article/jha" },
+    { name: "Article 5", path: "/article/dahmer" },
   ];
 
   const isActive = (path) => {
@@ -33,13 +34,29 @@ export const Navbar = () => {
   const isArticlesActive = () =>
     location.pathname.startsWith("/article") || location.pathname.startsWith("/case");
 
+  // public path to logo (place logo.jpg in public/)
+  const logoSrc = (process.env.PUBLIC_URL || "") + "/logo.jpg"; // fallback to /logo.jpg
+
   return (
     <nav className="sticky top-0 z-50 bg-[#111] border-b border-[#222]">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
 
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-3">
-          <img src="logo.jpg" alt="Crime & Carnage" className="w-9 h-9 rounded" />
+          {!logoError ? (
+            <img
+              src={logoSrc}
+              alt="Crime & Carnage"
+              className="w-9 h-9 rounded object-cover"
+              onError={() => setLogoError(true)}
+              aria-hidden={false}
+            />
+          ) : (
+            // fallback — simple styled initials if image fails
+            <div className="w-9 h-9 rounded bg-[#a00000] flex items-center justify-center text-white font-bold">
+              CC
+            </div>
+          )}
           <span className="text-white font-bold text-lg">Crime &amp; Carnage</span>
         </Link>
 
@@ -82,7 +99,7 @@ export const Navbar = () => {
                     key={a.path}
                     to={a.path}
                     onClick={() => {
-                      // close dropdown only when clicking an article link (exactly what you requested)
+                      // close dropdown only when clicking an article link
                       setDesktopArticlesOpen(false);
                       setIsOpen(false);
                     }}
@@ -143,7 +160,7 @@ export const Navbar = () => {
             </Link>
           ))}
 
-          {/* Mobile Articles accordion (behaves as before) */}
+          {/* Mobile Articles accordion */}
           <div>
             <button
               onClick={() => setArticlesOpen(!articlesOpen)}
