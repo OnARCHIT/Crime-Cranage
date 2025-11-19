@@ -19,8 +19,8 @@ export const Navbar = () => {
   ];
 
   const articles = [
-    { name: "Article 1", path: "/article/sharma" },
-    { name: "Article 2", path: "/article/jha" },
+    { name: "Article 1", path: "/article/jaishankar" },
+    { name: "Article 2", path: "/article/sharma" },
     { name: "Article 3", path: "/article/jha" },
     { name: "Article 4", path: "/article/dahmer" },
     { name: "Article 5", path: "/article/jaishankar" },
