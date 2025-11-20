@@ -78,7 +78,7 @@ const HomePage = () => {
 
 const featuredArticles = [
   {
-    id: 4,
+    id: 1,
     title: "Devendra Sharma: The Confession Killer",
     description:
       "A shocking story of a man who confessed to murdering his own family in cold blood.",
@@ -90,7 +90,7 @@ const featuredArticles = [
   },
 
   {
-    id: 3,
+    id: 2,
     title: "John Wayne Gacy: The Killer Who Smiled Like a Clown",
     description:
       "The chilling double life of a friendly neighbour and the monster beneath the paint.",
@@ -102,7 +102,7 @@ const featuredArticles = [
   },
 
   {
-    id: 2,
+    id: 3,
     title: "Chandrakant Jha: The Butcher Who Taunted Delhi",
     description:
       "A predator who lived among migrant labourers and left the city reeling with staged murders.",
@@ -114,7 +114,7 @@ const featuredArticles = [
   },
 
   {
-    id: 1,
+    id: 5,
     title: "Jeffrey Dahmer: The Quiet Man with a Deadly Secret",
     description:
       "A plain-looking neighbour whose apartment hid a house of horror — Dahmer's story.",
@@ -126,7 +126,7 @@ const featuredArticles = [
   },
 
   {
-    id: 5,
+    id: 4,
     title: "M. Jaishankar: The Cyanide Killer of India",
     description: "How a charming NRI persona hid a brutal murderer.",
     image: "https://images.indianexpress.com/2018/03/jaishankar.jpg",
