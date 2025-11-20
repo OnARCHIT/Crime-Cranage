@@ -23,7 +23,7 @@ export const Navbar = () => {
     { name: "Article 2", path: "/article/sharma" },
     { name: "Article 3", path: "/article/jha" },
     { name: "Article 4", path: "/article/dahmer" },
-    { name: "Article 5", path: "/article/jaishankar" },
+    { name: "Article 5", path: "/article/gacy" },
   ];
 
   const isActive = (path) => {
