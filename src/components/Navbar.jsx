@@ -21,7 +21,7 @@ export const Navbar = () => {
     { name: "Article 1 — Devendra Sharma", path: "/article/jaishankar" },
     { name: "Article 2 — John Wayne Gacy", path: "/article/sharma" },
     {name: "Article 3 — Chandrakant Jha", path: "/article/gacy" },
-    { name: "Article 4 — Jeffrey Dahmer", path: "/article/chandrakant-jha" },
+    { name: "Article 4 — Jeffrey Dahmer", path: "/article/jha" },
     { name: "Article 5 — M. Jaishankar", path: "/article/dahmer" },
   ];
 
