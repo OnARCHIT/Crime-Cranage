@@ -76,8 +76,8 @@ const HomePage = () => {
     }
   }, []);
 
-  // Featured articles — ordered as requested (Jaishankar, Sharma, Jha, Gacy, Dahmer)
-  const featuredArticles = [
+  // Featured articles — ordered as requested (Jaishankar, Devendra Sharma, Chandrakant Jha, John Wayne Gacy, Dahmer)
+const featuredArticles = [
     {
       id: 1,
        title: "Devendra Sharma: The Confession Killer",
@@ -242,37 +242,29 @@ const HomePage = () => {
             </div>
 
             {/* MAP */}
-<section ref={mapRef} className="mt-12">
-  <h3 className="text-2xl font-bold mb-4">Crime Hotspots in India</h3>
-  <Card className="bg-[#111] border border-[#222]">
-    <CardContent>
-      <div className="relative h-[420px] rounded-lg overflow-hidden bg-[#0b0b0c]">
+            <section ref={mapRef} className="mt-12">
+              <h3 className="text-2xl font-bold mb-4">Crime Hotspots in India</h3>
+              <Card className="bg-[#111] border border-[#222]">
+                <CardContent>
+                  <div className="relative h-[420px] rounded-lg overflow-hidden bg-[#0b0b0c]">
 
-        {/* Google Maps Embed */}
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14676.615690340335!2d85.3095625!3d23.3440996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e45d1a08893bf%3A0xe0f1fa89f592eff!2sRanchi%2C%20Jharkhand!5e0!3m2!1sen!2sin!4v1731986500000!5m2!1sen!2sin"
-          className="w-full h-full border-0"
-          loading="lazy"
-          allowFullScreen=""
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
+                    {/* Google Maps Embed */}
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14676.615690340335!2d85.3095625!3d23.3440996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e45d1a08893bf%3A0xe0f1fa89f592eff!2sRanchi%2C%20Jharkhand!5e0!3m2!1sen!2sin!4v1731986500000!5m2!1sen!2sin"
+                      className="w-full h-full border-0"
+                      loading="lazy"
+                      allowFullScreen
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Ranchi map"
+                    ></iframe>
 
-        {/* Optional Dark Overlay for theme consistency */}
-        <div className="absolute inset-0 bg-black/20 pointer-events-none" />
-      </div>
-
-      <p className="text-sm text-gray-400 mt-4 flex items-center gap-2 justify-center">
-        <MapPin size={14} />
-        Interactive Map — zoom or drag to explore hotspots
-      </p>
-    </CardContent>
-  </Card>
-</section>
-
+                    {/* Optional Dark Overlay for theme consistency */}
+                    <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+                  </div>
 
                   <p className="text-sm text-gray-400 mt-4 flex items-center gap-2 justify-center">
                     <MapPin size={14} />
-                    Hover over markers to see city stats
+                    Interactive Map — zoom or drag to explore hotspots
                   </p>
                 </CardContent>
               </Card>
