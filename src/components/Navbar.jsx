@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false); // mobile main menu
-  const [articlesOpen, setArticlesOpen] = useState(false); // mobile articles submenu
-  const [desktopArticlesOpen, setDesktopArticlesOpen] = useState(false); // desktop click toggle
-  const [logoError, setLogoError] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // mobile menu
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // desktop dropdown
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false); // mobile dropdown
   const location = useLocation();
+  const dropdownRef = useRef(null);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -18,51 +18,33 @@ export const Navbar = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  const articles = [
-    { name: "Article 1", path: "/article/jaishankar" },
-    { name: "Article 2", path: "/article/sharma" },
-    { name: "Article 3", path: "/article/jha" },
-    { name: "Article 4", path: "/article/dahmer" },
-    { name: "Article 5", path: "/article/gacy" },
-  ];
+  // Dropdown stays OPEN until user clicks
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-  const isActive = (path) => {
-    if (path === "/") return location.pathname === "/";
-    return location.pathname === path;
-  };
-
-  const isArticlesActive = () =>
-    location.pathname.startsWith("/article") || location.pathname.startsWith("/case");
-
-  // public path to logo (place logo.jpg in public/)
-  const logoSrc = (process.env.PUBLIC_URL || "") + "/logo.jpg"; // fallback to /logo.jpg
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#111] border-b border-[#222]">
+    <nav className="sticky top-0 z-50 bg-[#0b0b0c] border-b border-[#222] backdrop-blur-lg">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-
+        
         {/* LOGO */}
-        <Link to="/" className="flex items-center gap-3">
-          {!logoError ? (
-            <img
-              src={logoSrc}
-              alt="Crime & Carnage"
-              className="w-9 h-9 rounded object-cover"
-              onError={() => setLogoError(true)}
-              aria-hidden={false}
-            />
-          ) : (
-            // fallback — simple styled initials if image fails
-            <div className="w-9 h-9 rounded bg-[#a00000] flex items-center justify-center text-white font-bold">
-              CC
-            </div>
-          )}
-          <span className="text-white font-bold text-lg">Crime &amp; Carnage</span>
+        <Link to="/" className="flex items-center gap-2">
+          <img src="/logo.jpg" alt="Crime & Carnage" className="w-9 h-9 rounded" />
+          <span className="text-white font-bold text-lg tracking-wide">Crime & Carnage</span>
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-2">
-          {navLinks.slice(0, 3).map((link) => (
+
+          {navLinks.map((link) => (
             <Link key={link.path} to={link.path}>
               <button
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200
@@ -78,71 +60,62 @@ export const Navbar = () => {
             </Link>
           ))}
 
-          {/* ARTICLES - click to open/close (desktop). stays open until user clicks one of the article links */}
-          <div className="relative">
+          {/* DROPDOWN — ARTICLES */}
+          <div ref={dropdownRef} className="relative">
             <button
-              onClick={() => setDesktopArticlesOpen((s) => !s)}
-              aria-expanded={desktopArticlesOpen}
-              className={`px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-all duration-200
-                ${isArticlesActive() ? "bg-[#a00000] text-white shadow-md" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className={`px-4 py-2 rounded-md text-sm font-medium flex items-center gap-1 transition-all
+                ${
+                  location.pathname.includes("/article")
+                    ? "bg-[#a00000] text-white"
+                    : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"
+                }
               `}
             >
               Articles
-              <ChevronDown size={14} className="text-gray-200" />
+              <ChevronDown size={16} />
             </button>
 
-            {/* desktop dropdown menu — opens via click; will NOT auto-close on mouseleave */}
-            {desktopArticlesOpen && (
-              <div className="absolute right-0 mt-2 w-44 bg-[#0f0f10] border border-[#222] rounded-md shadow-lg overflow-hidden">
-                {articles.map((a) => (
+            {/* DESKTOP DROPDOWN */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-[#111] border border-[#333] rounded-lg shadow-xl py-2">
+                {[
+                  { name: "Article 1", path: "/article/jaishankar" },
+                  { name: "Article 2", path: "/article/sharma" },
+                  { name: "Article 3", path: "/article/chandrakant-jha" },
+                  { name: "Article 4", path: "/article/gacy" },
+                  { name: "Article 5", path: "/article/dahmer" },
+                ].map((item) => (
                   <Link
-                    key={a.path}
-                    to={a.path}
-                    onClick={() => {
-                      // close dropdown only when clicking an article link
-                      setDesktopArticlesOpen(false);
-                      setIsOpen(false);
-                    }}
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setIsDropdownOpen(false)}
+                    className={`block px-4 py-2 text-sm rounded-md transition-all
+                      ${
+                        isActive(item.path)
+                          ? "bg-[#a00000] text-white"
+                          : "text-gray-300 hover:bg-[#1a1a1a] hover:text-white"
+                      }
+                    `}
                   >
-                    <div
-                      className={`px-4 py-2 text-sm ${
-                        isActive(a.path) ? "bg-[#a00000] text-white" : "text-gray-200 hover:bg-[#151515]"
-                      }`}
-                    >
-                      {a.name}
-                    </div>
+                    {item.name}
                   </Link>
                 ))}
               </div>
             )}
           </div>
-
-          {navLinks.slice(3).map((link) => (
-            <Link key={link.path} to={link.path}>
-              <button
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200
-                  ${
-                    isActive(link.path)
-                      ? "bg-[#a00000] text-white shadow-md"
-                      : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"
-                  }
-                `}
-              >
-                {link.name}
-              </button>
-            </Link>
-          ))}
         </div>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
+        {/* Mobile Menu Toggle */}
+        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-[#111] border-t border-[#222] px-4 py-3 space-y-2">
+        <div className="md:hidden bg-[#0b0b0c] border-t border-[#222] px-4 py-3 space-y-2">
+
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -160,38 +133,44 @@ export const Navbar = () => {
             </Link>
           ))}
 
-          {/* Mobile Articles accordion */}
-          <div>
-            <button
-              onClick={() => setArticlesOpen(!articlesOpen)}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium
-                ${isArticlesActive() ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}
-              `}
-            >
-              <span>Articles</span>
-              <ChevronDown size={16} className={`${articlesOpen ? "rotate-180 transform" : ""}`} />
-            </button>
+          {/* MOBILE DROPDOWN */}
+          <button
+            onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
+            className="w-full flex justify-between px-3 py-2 text-gray-300 rounded-md hover:bg-[#1a1a1a]"
+          >
+            Articles
+            <ChevronDown size={18} className={`${isMobileDropdownOpen && "rotate-180"}`} />
+          </button>
 
-            {articlesOpen && (
-              <div className="mt-2 space-y-1 pl-3">
-                {articles.map((a) => (
-                  <Link
-                    key={a.path}
-                    to={a.path}
-                    onClick={() => {
-                      setIsOpen(false);
-                      setArticlesOpen(false);
-                    }}
-                    className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                      isActive(a.path) ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"
-                    }`}
-                  >
-                    {a.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+          {isMobileDropdownOpen && (
+            <div className="pl-3 space-y-1">
+              {[
+                { name: "Article 1", path: "/article/jaishankar" },
+                { name: "Article 2", path: "/article/sharma" },
+                { name: "Article 3", path: "/article/chandrakant-jha" },
+                { name: "Article 4", path: "/article/gacy" },
+                { name: "Article 5", path: "/article/dahmer" },
+              ].map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => {
+                    setIsMobileDropdownOpen(false);
+                    setIsOpen(false);
+                  }}
+                  className={`block px-3 py-2 rounded-md text-sm
+                    ${
+                      isActive(item.path)
+                        ? "bg-[#a00000] text-white"
+                        : "text-gray-400 hover:bg-[#1a1a1a] hover:text-white"
+                    }
+                  `}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </nav>
