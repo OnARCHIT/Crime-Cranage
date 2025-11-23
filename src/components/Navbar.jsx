@@ -18,13 +18,14 @@ export const Navbar = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  const articles = [
-    { name: "Article 1 — Dahmer", path: "/article/dahmer" },
-    { name: "Article 2 — Jaishankar", path: "/article/jaishankar" },
-    { name: "Article 3 — Sharma", path: "/article/sharma" },
-    { name: "Article 4 — Gacy", path: "/article/gacy" },
-    { name: "Article 5 — Jha", path: "/article/chandrakant-jha" },
-  ];
+const articles = [
+  { name: "Article 1 — Jaishankar", path: "/article/jaishankar" },
+  { name: "Article 2 — Sharma", path: "/article/sharma" },
+  { name: "Article 3 — Gacy", path: "/article/gacy" },
+  { name: "Article 4 — Jha", path: "/article/chandrakant-jha" },
+  { name: "Article 5 — Dahmer", path: "/article/dahmer" }
+];
+
 
   const isActive = (path) => location.pathname === path;
 
