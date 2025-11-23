@@ -242,36 +242,33 @@ const HomePage = () => {
             </div>
 
             {/* MAP */}
-            <section ref={mapRef} className="mt-12">
-              <h3 className="text-2xl font-bold mb-4">Crime Hotspots in India</h3>
-              <Card className="bg-[#111] border border-[#222]">
-                <CardContent>
-                  <div className="relative h-[420px] rounded-lg overflow-hidden bg-[#0b0b0c]">
-                    <img
-                      src="https://images.unsplash.com/photo-1733094151451-4222a842cfd1"
-                      alt="India map"
-                      className="w-full h-full object-cover opacity-70"
-                    />
-                    {indianCrimeHotspots.map((s, i) => (
-                      <div
-                        key={i}
-                        className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                        style={{ top: s.top, left: s.left }}
-                      >
-                        <div className="relative">
-                          <div className="w-3 h-3 rounded-full bg-[#a00000] animate-ping absolute" />
-                          <div className="w-3 h-3 rounded-full bg-[#a00000] relative border-2 border-[#0b0b0c]" />
-                        </div>
+<section ref={mapRef} className="mt-12">
+  <h3 className="text-2xl font-bold mb-4">Crime Hotspots in India</h3>
+  <Card className="bg-[#111] border border-[#222]">
+    <CardContent>
+      <div className="relative h-[420px] rounded-lg overflow-hidden bg-[#0b0b0c]">
 
-                        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                          <div className="bg-[#0b0b0c] border border-[#222] rounded-lg px-3 py-2 shadow">
-                            <p className="text-sm font-semibold">{s.city}</p>
-                            <p className="text-xs text-gray-400">{s.cases} cases reported</p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+        {/* Google Maps Embed */}
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14676.615690340335!2d85.3095625!3d23.3440996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e45d1a08893bf%3A0xe0f1fa89f592eff!2sRanchi%2C%20Jharkhand!5e0!3m2!1sen!2sin!4v1731986500000!5m2!1sen!2sin"
+          className="w-full h-full border-0"
+          loading="lazy"
+          allowFullScreen=""
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+
+        {/* Optional Dark Overlay for theme consistency */}
+        <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+      </div>
+
+      <p className="text-sm text-gray-400 mt-4 flex items-center gap-2 justify-center">
+        <MapPin size={14} />
+        Interactive Map — zoom or drag to explore hotspots
+      </p>
+    </CardContent>
+  </Card>
+</section>
+
 
                   <p className="text-sm text-gray-400 mt-4 flex items-center gap-2 justify-center">
                     <MapPin size={14} />
