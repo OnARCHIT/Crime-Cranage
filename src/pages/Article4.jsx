@@ -1,202 +1,204 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+// src/pages/article/ChandrakantJha.jsx
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { Link } from 'react-router-dom';
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { ArrowLeft, ArrowRight, Clock, Share2 } from 'lucide-react';
 
-export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false); // mobile main menu
-  const [articlesOpen, setArticlesOpen] = useState(false); // mobile articles submenu
-  const [desktopArticlesOpen, setDesktopArticlesOpen] = useState(false); // desktop click toggle
-  const [logoError, setLogoError] = useState(false);
-  const location = useLocation();
+const Article4 = () => {
+  const contentRef = useRef(null);
+  const imageRef = useRef(null);
 
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Serial Killers", path: "/serial-killers" },
-    { name: "Cold Cases", path: "/cold-cases" },
-    { name: "Court Judgments", path: "/court-judgments" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
-  ];
+  useEffect(() => {
+    window.scrollTo(0, 0);
 
-  // Properly ordered articles as requested
-  const articles = [
-    { name: "M. Jaishankar", path: "/article/jaishankar" },
-    { name: "Devendra Sharma", path: "/article/devendra-sharma" },
-    { name: "John Wayne", path: "/article/john-wayne" },
-    { name: "Chandrakant Jha", path: "/article/chandrakant-jha" },
-    { name: "Dahmer", path: "/article/dahmer" },
-  ];
+    // Hero Image Animation
+    gsap.from(imageRef.current, {
+      opacity: 0,
+      scale: 1.1,
+      duration: 1.2,
+      ease: 'power3.out',
+    });
 
-  const isActive = (path) => {
-    if (path === "/") return location.pathname === "/";
-    return location.pathname === path;
-  };
-
-  const isArticlesActive = () =>
-    location.pathname.startsWith("/article") || location.pathname.startsWith("/case");
-
-  // public path to logo (place logo.jpg in public/)
-  const logoSrc = (process.env.PUBLIC_URL || "") + "/logo.jpg"; // fallback to /logo.jpg
+    // Content Animation
+    gsap.from(contentRef.current?.children, {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: 'power2.out',
+      delay: 0.3,
+    });
+  }, []);
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#111] border-b border-[#222]">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-background">
+      <Navbar />
 
-        {/* LOGO */}
-        <Link to="/" className="flex items-center gap-3">
-          {!logoError ? (
-            <img
-              src={logoSrc}
-              alt="Crime & Carnage"
-              className="w-9 h-9 rounded object-cover"
-              onError={() => setLogoError(true)}
-              aria-hidden={false}
-            />
-          ) : (
-            // fallback — simple styled initials if image fails
-            <div className="w-9 h-9 rounded bg-[#a00000] flex items-center justify-center text-white font-bold">
-              CC
-            </div>
-          )}
-          <span className="text-white font-bold text-lg">Crime &amp; Carnage</span>
-        </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-2">
-          {navLinks.slice(0, 3).map((link) => (
-            <Link key={link.path} to={link.path}>
-              <button
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200
-                  ${
-                    isActive(link.path)
-                      ? "bg-[#a00000] text-white shadow-md"
-                      : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"
-                  }
-                `}
-              >
-                {link.name}
-              </button>
-            </Link>
-          ))}
-
-          {/* ARTICLES - click to open/close (desktop). stays open until user clicks one of the article links */}
-          <div className="relative">
-            <button
-              onClick={() => setDesktopArticlesOpen((s) => !s)}
-              aria-expanded={desktopArticlesOpen}
-              className={`px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2 transition-all duration-200
-                ${isArticlesActive() ? "bg-[#a00000] text-white shadow-md" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}
-              `}
-            >
-              Articles
-              <ChevronDown size={14} className="text-gray-200" />
-            </button>
-
-            {/* desktop dropdown menu — opens via click; will NOT auto-close on mouseleave */}
-            {desktopArticlesOpen && (
-              <div className="absolute right-0 mt-2 w-44 bg-[#0f0f10] border border-[#222] rounded-md shadow-lg overflow-hidden">
-                {articles.map((a) => (
-                  <Link
-                    key={a.path}
-                    to={a.path}
-                    onClick={() => {
-                      // close dropdown only when clicking an article link
-                      setDesktopArticlesOpen(false);
-                      setIsOpen(false);
-                    }}
-                  >
-                    <div
-                      className={`px-4 py-2 text-sm ${
-                        isActive(a.path) ? "bg-[#a00000] text-white" : "text-gray-200 hover:bg-[#151515]"
-                      }`}
-                    >
-                      {a.name}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {navLinks.slice(3).map((link) => (
-            <Link key={link.path} to={link.path}>
-              <button
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200
-                  ${
-                    isActive(link.path)
-                      ? "bg-[#a00000] text-white shadow-md"
-                      : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"
-                  }
-                `}
-              >
-                {link.name}
-              </button>
-            </Link>
-          ))}
-        </div>
-
-        {/* Mobile toggle */}
-        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)} aria-label="Menu">
-          {isOpen ? <X size={26} /> : <Menu size={26} />}
-        </button>
+      {/* Hero */}
+      <div ref={imageRef} className="relative h-[60vh] overflow-hidden">
+        <img
+          src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/201302/chandrakant_jha--1_660_021913115051.jpg"
+          alt="Chandrakant Jha"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
       </div>
 
-      {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden bg-[#111] border-t border-[#222] px-4 py-3 space-y-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              onClick={() => setIsOpen(false)}
-              className={`block px-3 py-2 rounded-md text-sm font-medium 
-                ${
-                  isActive(link.path)
-                    ? "bg-[#a00000] text-white"
-                    : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"
-                }
-              `}
-            >
-              {link.name}
-            </Link>
-          ))}
+      {/* Article Content */}
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-32 relative z-10">
+        <div
+          ref={contentRef}
+          className="bg-card border border-border rounded-lg shadow-2xl p-8 md:p-12"
+        >
+          {/* Header */}
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-2 mb-4">
+              <Badge className="bg-[hsl(var(--primary))] text-primary-foreground">
+                Serial Killers
+              </Badge>
+              <Badge variant="outline">Delhi</Badge>
+              <Badge variant="outline">Notorious Killers</Badge>
+            </div>
 
-          {/* Mobile Articles accordion */}
-          <div>
-            <button
-              onClick={() => setArticlesOpen(!articlesOpen)}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium
-                ${isArticlesActive() ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}
-              `}
-            >
-              <span>Articles</span>
-              <ChevronDown size={16} className={`${articlesOpen ? "rotate-180 transform" : ""}`} />
-            </button>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight mb-4">
+              Chandrakant Jha — The Butcher Who Taunted Delhi Police
+            </h1>
 
-            {articlesOpen && (
-              <div className="mt-2 space-y-1 pl-3">
-                {articles.map((a) => (
-                  <Link
-                    key={a.path}
-                    to={a.path}
-                    onClick={() => {
-                      setIsOpen(false);
-                      setArticlesOpen(false);
-                    }}
-                    className={`block px-3 py-2 rounded-md text-sm font-medium ${
-                      isActive(a.path) ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"
-                    }`}
-                  >
-                    {a.name}
-                  </Link>
-                ))}
+            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <Clock size={16} />
+                <span>9 min read</span>
               </div>
-            )}
+              <span>•</span>
+              <span>January 2025</span>
+              <span>•</span>
+              <button className="flex items-center gap-1 hover:text-[hsl(var(--primary))] transition-colors">
+                <Share2 size={16} />
+                Share
+              </button>
+            </div>
+          </div>
+
+          <Separator className="mb-8" />
+
+          {/* Body */}
+          <div className="prose prose-invert max-w-none">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              Delhi has seen some of the most disturbing crimes in India’s
+              history, but very few cases shook the city the way Chandrakant
+              Jha did. A man who lived among migrant laborers, worked ordinary
+              jobs, and blended into the crowd—yet led a double life filled
+              with unimaginable brutality.
+            </p>
+
+            <h2 className="text-3xl font-bold text-foreground mt-10 mb-4">
+              A Killer with a Message
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Between 2003 and 2007, Delhi Police regularly discovered body
+              parts wrapped in plastic bags and dumped near Tihar Jail.  
+              Each package came with a chilling handwritten note:
+              <br />  
+              <em>“Catch me if you can.”</em>
+              <br />
+              These taunts were signed with the name of the killer —
+              <strong>Chandrakant Jha</strong>.
+            </p>
+
+            <h2 className="text-3xl font-bold text-foreground mt-10 mb-4">
+              How He Chose His Victims
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Jha targeted migrant workers—mostly young men who had no families
+              in Delhi and were often unnoticed by society.  
+              He befriended them, fed them, gave them shelter, and gained
+              complete trust.
+            </p>
+
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              But the smallest disagreements—arguments over food, minor thefts,
+              or behaviour—could turn deadly. His murders were extremely violent
+              and personal, involving strangulation, dismemberment, and later,
+              the shocking act of leaving body parts in public areas.
+            </p>
+
+            <div className="my-8 p-6 bg-muted/20 border-l-4 border-[hsl(var(--primary))] rounded-r-lg">
+              <p className="italic text-foreground">
+                Police said Jha had a “father-like psychological hold” over
+                victims. When they disobeyed him, he killed them not out of
+                impulse—but to “punish betrayal.”
+              </p>
+            </div>
+
+            <h2 className="text-3xl font-bold text-foreground mt-10 mb-4">
+              Capture and Interrogation
+            </h2>
+
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              In 2007, Jha was finally captured after his final killing.
+              During interrogation, detectives were stunned by his calmness.
+              He described murders as if he were talking about chores.
+            </p>
+
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              He admitted to at least **three confirmed murders**, but hinted he
+              might have killed more. His psychological profile showed a
+              manipulative nature, deep resentment against society, and an
+              obsession with control.
+            </p>
+
+            <h2 className="text-3xl font-bold text-foreground mt-10 mb-4">
+              Life Sentence
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mb-6">
+              Jha was sentenced to death in 2013, but it was later commuted to
+              life imprisonment.  
+              He currently remains in prison, serving multiple life sentences.
+            </p>
+
+            <div className="my-8 bg-card border border-border rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-foreground mb-4">
+                Key Facts
+              </h3>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Known for leaving body parts near Tihar Jail</li>
+                <li>• Murdered at least 3 confirmed victims</li>
+                <li>• Taunted police with handwritten notes</li>
+                <li>• Targeted migrant workers</li>
+                <li>• Arrested in 2007</li>
+                <li>• Serving multiple life sentences</li>
+              </ul>
+            </div>
+          </div>
+
+          <Separator className="my-8" />
+
+          {/* Navigation */}
+          <div className="flex justify-between items-center">
+            <Link to="/">
+              <Button variant="outline" className="hover:bg-muted">
+                <ArrowLeft size={16} className="mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+            <Link to="/article/dahmer">
+              <Button className="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary-glow))] text-primary-foreground">
+                Next Article
+                <ArrowRight size={16} className="ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
-      )}
-    </nav>
+      </article>
+
+      <Footer />
+    </div>
   );
 };
 
-export default Navbar;
+export default Article4;
