@@ -18,11 +18,11 @@ export const Navbar = () => {
 
   // Correct final order
   const articles = [
-    { name: "Article 1 — M. Jaishankar", path: "/article/jaishankar" },
-    { name: "Article 2 — Devendra Sharma", path: "/article/sharma" },
-    {name: "Article 3 — John Wayne Gacy", path: "/article/gacy" },
-    { name: "Article 4 — Chandrakant Jha", path: "/article/chandrakant-jha" },
-    { name: "Article 5 — Jeffrey Dahmer", path: "/article/dahmer" },
+    { name: "Article 1 — Devendra Sharma", path: "/article/jaishankar" },
+    { name: "Article 2 — John Wayne Gacy", path: "/article/sharma" },
+    {name: "Article 3 — Chandrakant Jha", path: "/article/gacy" },
+    { name: "Article 4 — Jeffrey Dahmer", path: "/article/chandrakant-jha" },
+    { name: "Article 5 — M. Jaishankar", path: "/article/dahmer" },
   ];
 
   const isActive = (path) => location.pathname === path;
