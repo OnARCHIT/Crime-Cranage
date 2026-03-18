@@ -143,7 +143,7 @@ const ContactPage = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-foreground font-semibold">Email</p>
-                    <p className="text-sm text-muted-foreground">devarpit04@gmail.com</p>
+                    <p className="text-sm text-muted-foreground">shreya.230206@gmail.com</p>
                     <div className="mt-2 flex gap-2">
                       <a
                         className="text-sm px-3 py-1 rounded-md bg-muted/10 hover:bg-muted transition"
