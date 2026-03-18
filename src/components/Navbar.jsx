@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 
@@ -7,8 +7,8 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [articlesOpen, setArticlesOpen] = useState(false);
   const location = useLocation();
+  const dropdownRef = useRef(null);
 
-  // ✅ UPDATED NAV LINKS
   const navLinks = [
     { name: "Politics", path: "/politics" },
     { name: "Sports", path: "/sports" },
@@ -16,7 +16,6 @@ export const Navbar = () => {
     { name: "Contact", path: "/contact" },
   ];
 
-  // Articles (kept as requested)
   const articles = [
     { name: "Devendra Sharma", path: "/article/jaishankar" },
     { name: "John Wayne Gacy", path: "/article/sharma" },
@@ -30,16 +29,32 @@ export const Navbar = () => {
   const toggleMobile = () => setIsOpen((v) => !v);
   const toggleArticles = () => setArticlesOpen((v) => !v);
 
-  const onArticleClick = () => {
-    setArticlesOpen(false);
+  const closeAll = () => {
     setIsOpen(false);
+    setArticlesOpen(false);
   };
 
+  // ✅ Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setArticlesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // ✅ Close menus on route change
+  useEffect(() => {
+    closeAll();
+  }, [location.pathname]);
+
   return (
-    <nav className="sticky top-0 z-50 bg-[#0b0b0c] border-b border-[#222]">
+    <nav className="sticky top-0 z-50 bg-[#0b0b0c]/95 backdrop-blur border-b border-[#222]">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
 
-        {/* ✅ LOGO + BRAND */}
+        {/* LOGO */}
         <Link to="/" className="flex items-center gap-3">
           <img
             src="/logo1.png"
@@ -51,21 +66,19 @@ export const Navbar = () => {
           </span>
         </Link>
 
-        {/* ✅ DESKTOP NAV */}
+        {/* DESKTOP NAV */}
         <div className="hidden md:flex items-center gap-2">
 
           {/* HOME */}
           <Link to="/">
-            <button
-              className={`px-4 py-2 rounded-md text-sm font-medium transition
-              ${isActive("/") ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}
-            >
+            <button className={`px-4 py-2 rounded-md text-sm font-medium transition
+              ${isActive("/") ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}>
               Home
             </button>
           </Link>
 
           {/* ARTICLES DROPDOWN */}
-          <div className="relative">
+          <div className="relative" ref={dropdownRef}>
             <button
               onClick={toggleArticles}
               className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition
@@ -75,10 +88,11 @@ export const Navbar = () => {
               {articlesOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </button>
 
+            {/* DROPDOWN */}
             {articlesOpen && (
-              <div className="absolute left-0 mt-2 w-64 bg-[#0b0b0b] border border-[#222] rounded shadow-lg py-2 z-50">
+              <div className="absolute left-0 mt-2 w-64 bg-[#0b0b0b] border border-[#222] rounded shadow-xl py-2 z-50 animate-fadeIn">
                 {articles.map((a) => (
-                  <Link key={a.path} to={a.path} onClick={onArticleClick}>
+                  <Link key={a.path} to={a.path}>
                     <div className="px-4 py-2 text-sm text-gray-200 hover:bg-[#1a1a1a] hover:text-white cursor-pointer">
                       {a.name}
                     </div>
@@ -88,31 +102,28 @@ export const Navbar = () => {
             )}
           </div>
 
-          {/* UPDATED LINKS */}
+          {/* NAV LINKS */}
           {navLinks.map((link) => (
             <Link key={link.path} to={link.path}>
-              <button
-                className={`px-4 py-2 rounded-md text-sm font-medium transition
-                ${isActive(link.path) ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}
-              >
+              <button className={`px-4 py-2 rounded-md text-sm font-medium transition
+                ${isActive(link.path) ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}>
                 {link.name}
               </button>
             </Link>
           ))}
         </div>
 
-        {/* ✅ MOBILE BUTTON */}
+        {/* MOBILE BUTTON */}
         <button className="md:hidden text-white" onClick={toggleMobile}>
           {isOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 
-      {/* ✅ MOBILE MENU */}
+      {/* MOBILE MENU */}
       {isOpen && (
         <div className="md:hidden bg-[#111] border-t border-[#222] px-4 py-3 space-y-2">
 
-          {/* HOME */}
-          <Link to="/" onClick={() => setIsOpen(false)}>
+          <Link to="/">
             <div className={`px-3 py-2 rounded-md ${isActive("/") ? "bg-[#a00000] text-white" : "text-gray-300 hover:bg-[#1a1a1a]"}`}>
               Home
             </div>
@@ -131,7 +142,7 @@ export const Navbar = () => {
           {articlesOpen && (
             <div className="pl-3 space-y-1">
               {articles.map((a) => (
-                <Link key={a.path} to={a.path} onClick={onArticleClick}>
+                <Link key={a.path} to={a.path}>
                   <div className="px-3 py-2 text-sm text-gray-200 hover:bg-[#1a1a1a] rounded">
                     {a.name}
                   </div>
@@ -140,9 +151,8 @@ export const Navbar = () => {
             </div>
           )}
 
-          {/* UPDATED LINKS */}
           {navLinks.map((link) => (
-            <Link key={link.path} to={link.path} onClick={() => setIsOpen(false)}>
+            <Link key={link.path} to={link.path}>
               <div className={`px-3 py-2 rounded-md text-sm
                 ${isActive(link.path) ? "bg-[#a00000] text-white" : "text-gray-300 hover:bg-[#1a1a1a]"}`}>
                 {link.name}
