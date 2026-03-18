@@ -13,7 +13,7 @@
 
     {/* ✅ UPDATED LOGO */}
     <img
-      src="/logo1.png"
+      src="/public/logo1.png"
       alt="S53 News Logo"
       className="h-16 mx-auto mb-4 opacity-90"
     />
