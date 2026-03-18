@@ -8,24 +8,25 @@ export const Navbar = () => {
   const [articlesOpen, setArticlesOpen] = useState(false);
   const location = useLocation();
 
+  // ✅ UPDATED NAV LINKS
   const navLinks = [
-    { name: "Serial Killers", path: "/serial-killers" },
-    { name: "Cold Cases", path: "/cold-cases" },
-    { name: "Court Judgments", path: "/court-judgments" },
-    { name: "About", path: "/about" },
+    { name: "Politics", path: "/politics" },
+    { name: "Sports", path: "/sports" },
+    { name: "Technology", path: "/technology" },
     { name: "Contact", path: "/contact" },
   ];
 
-  // Correct final order
+  // Articles (kept as requested)
   const articles = [
-    { name: "Article 1 — Devendra Sharma", path: "/article/jaishankar" },
-    { name: "Article 2 — John Wayne Gacy", path: "/article/sharma" },
-    {name: "Article 3 — Chandrakant Jha", path: "/article/gacy" },
-    { name: "Article 4 — Jeffrey Dahmer", path: "/article/jha" },
-    { name: "Article 5 — M. Jaishankar", path: "/article/dahmer" },
+    { name: "Devendra Sharma", path: "/article/jaishankar" },
+    { name: "John Wayne Gacy", path: "/article/sharma" },
+    { name: "Chandrakant Jha", path: "/article/gacy" },
+    { name: "Jeffrey Dahmer", path: "/article/jha" },
+    { name: "M. Jaishankar", path: "/article/dahmer" },
   ];
 
   const isActive = (path) => location.pathname === path;
+
   const toggleMobile = () => setIsOpen((v) => !v);
   const toggleArticles = () => setArticlesOpen((v) => !v);
 
@@ -35,21 +36,30 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#111] border-b border-[#222]">
+    <nav className="sticky top-0 z-50 bg-[#0b0b0c] border-b border-[#222]">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
 
-        {/* LOGO */}
+        {/* ✅ LOGO + BRAND */}
         <Link to="/" className="flex items-center gap-3">
-          <img src="/logo.jpg" alt="Crime & Carnage" className="w-9 h-9 rounded-sm object-cover shadow-sm" />
-          <span className="text-white font-bold text-lg">Crime &amp; Carnage</span>
+          <img
+            src="/logo1.png"
+            alt="S53 News"
+            className="w-10 h-10 object-contain"
+          />
+          <span className="text-white font-bold text-lg tracking-wide">
+            S53 News
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* ✅ DESKTOP NAV */}
         <div className="hidden md:flex items-center gap-2">
 
           {/* HOME */}
           <Link to="/">
-            <button className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${isActive("/") ? "bg-[#a00000] text-white shadow-md" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}>
+            <button
+              className={`px-4 py-2 rounded-md text-sm font-medium transition
+              ${isActive("/") ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}
+            >
               Home
             </button>
           </Link>
@@ -58,8 +68,8 @@ export const Navbar = () => {
           <div className="relative">
             <button
               onClick={toggleArticles}
-              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200
-                ${articlesOpen ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition
+              ${articlesOpen ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}
             >
               Articles
               {articlesOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -69,7 +79,7 @@ export const Navbar = () => {
               <div className="absolute left-0 mt-2 w-64 bg-[#0b0b0b] border border-[#222] rounded shadow-lg py-2 z-50">
                 {articles.map((a) => (
                   <Link key={a.path} to={a.path} onClick={onArticleClick}>
-                    <div className="px-4 py-2 cursor-pointer text-gray-200 text-sm hover:bg-[#1a1a1a] hover:text-white">
+                    <div className="px-4 py-2 text-sm text-gray-200 hover:bg-[#1a1a1a] hover:text-white cursor-pointer">
                       {a.name}
                     </div>
                   </Link>
@@ -78,12 +88,12 @@ export const Navbar = () => {
             )}
           </div>
 
-          {/* OTHER LINKS */}
+          {/* UPDATED LINKS */}
           {navLinks.map((link) => (
             <Link key={link.path} to={link.path}>
               <button
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200
-                  ${isActive(link.path) ? "bg-[#a00000] text-white shadow-md" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition
+                ${isActive(link.path) ? "bg-[#a00000] text-white" : "text-gray-300 hover:text-white hover:bg-[#1a1a1a]"}`}
               >
                 {link.name}
               </button>
@@ -91,27 +101,27 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* ✅ MOBILE BUTTON */}
         <button className="md:hidden text-white" onClick={toggleMobile}>
           {isOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* ✅ MOBILE MENU */}
       {isOpen && (
         <div className="md:hidden bg-[#111] border-t border-[#222] px-4 py-3 space-y-2">
 
           {/* HOME */}
           <Link to="/" onClick={() => setIsOpen(false)}>
-            <div className={`block px-3 py-2 rounded-md ${isActive("/") ? "bg-[#a00000] text-white" : "text-gray-300 hover:bg-[#1a1a1a]"}`}>
+            <div className={`px-3 py-2 rounded-md ${isActive("/") ? "bg-[#a00000] text-white" : "text-gray-300 hover:bg-[#1a1a1a]"}`}>
               Home
             </div>
           </Link>
 
-          {/* ARTICLES DROPDOWN */}
+          {/* ARTICLES */}
           <button
             onClick={toggleArticles}
-            className={`w-full flex justify-between items-center px-3 py-2 rounded-md text-sm 
+            className={`w-full flex justify-between items-center px-3 py-2 rounded-md
               ${articlesOpen ? "bg-[#a00000] text-white" : "text-gray-300 hover:bg-[#1a1a1a]"}`}
           >
             Articles
@@ -119,10 +129,10 @@ export const Navbar = () => {
           </button>
 
           {articlesOpen && (
-            <div className="mt-2 space-y-1 pl-3">
+            <div className="pl-3 space-y-1">
               {articles.map((a) => (
                 <Link key={a.path} to={a.path} onClick={onArticleClick}>
-                  <div className="px-3 py-2 rounded-md text-sm text-gray-200 hover:bg-[#1a1a1a]">
+                  <div className="px-3 py-2 text-sm text-gray-200 hover:bg-[#1a1a1a] rounded">
                     {a.name}
                   </div>
                 </Link>
@@ -130,10 +140,10 @@ export const Navbar = () => {
             </div>
           )}
 
-          {/* REMAINING LINKS */}
+          {/* UPDATED LINKS */}
           {navLinks.map((link) => (
             <Link key={link.path} to={link.path} onClick={() => setIsOpen(false)}>
-              <div className={`block px-3 py-2 rounded-md text-sm font-medium 
+              <div className={`px-3 py-2 rounded-md text-sm
                 ${isActive(link.path) ? "bg-[#a00000] text-white" : "text-gray-300 hover:bg-[#1a1a1a]"}`}>
                 {link.name}
               </div>
