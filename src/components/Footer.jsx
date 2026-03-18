@@ -1,87 +1,101 @@
 import React from "react";
 import { Mail, Phone, MapPin, Code } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-card border-t border-border text-muted-foreground">
-      <div className="max-w-5xl mx-auto px-6 py-10 grid gap-8 sm:grid-cols-2">
-        
-        {/* LEFT */}
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">S53 News</h2>
+    <footer className="bg-[#0b0b0c] border-t border-[#222] text-gray-400">
+      <div className="max-w-6xl mx-auto px-6 py-12 grid gap-10 sm:grid-cols-2">
 
-          <p className="mt-2 text-sm">
+        {/* LEFT SECTION */}
+        <div>
+          <h2 className="text-2xl font-bold text-white tracking-wide">
+            S53 News
+          </h2>
+
+          <p className="mt-3 text-sm leading-relaxed">
             Created by{" "}
-            <span className="font-semibold text-foreground">
+            <span className="font-semibold text-white">
               Shreya Kumari
             </span>{" "}
-            — 3rd year Computer Science Engineer.
+            — 3rd Year Computer Science Engineering student.
           </p>
 
-          <div className="mt-4 space-y-2 text-sm">
-            <p>
-              <Mail size={16} className="inline-block mr-2 -mt-1" />
+          {/* CONTACT */}
+          <div className="mt-5 space-y-3 text-sm">
+            <p className="flex items-center gap-2">
+              <Mail size={16} />
               <a
                 href="mailto:shreya2302206@gmail.com"
-                className="hover:underline text-muted-foreground"
+                className="hover:text-white transition"
               >
                 shreya2302206@gmail.com
               </a>
             </p>
 
-            <p>
-              <Phone size={16} className="inline-block mr-2 -mt-1" />
-              <span className="text-muted-foreground">
-                +91 XXXXX XXXXX
-              </span>
+            <p className="flex items-center gap-2">
+              <Phone size={16} />
+              <span>+91 XXXXX XXXXX</span>
             </p>
 
-            <p>
-              <MapPin size={16} className="inline-block mr-2 -mt-1" />
-              India
+            <p className="flex items-center gap-2">
+              <MapPin size={16} />
+              <span>India</span>
             </p>
           </div>
 
-          <p className="mt-4 text-xs text-muted-foreground/80">
+          {/* COPYRIGHT */}
+          <p className="mt-6 text-xs text-gray-500">
             © {new Date().getFullYear()} S53 News. All rights reserved.
           </p>
         </div>
 
-        {/* RIGHT */}
+        {/* RIGHT SECTION */}
         <div>
-          <h3 className="text-lg font-semibold text-foreground">
+          <h3 className="text-lg font-semibold text-white">
             Content & Disclaimer
           </h3>
 
-          <p className="mt-2 text-sm leading-relaxed">
-            S53 News delivers real-time updates on technology, politics, and current affairs.
-            Information is curated from multiple sources and intended for informational purposes only.
+          <p className="mt-3 text-sm leading-relaxed text-gray-400">
+            S53 News provides curated updates on technology, politics, and
+            current affairs. Content is sourced from trusted platforms and is
+            intended for informational purposes only.
           </p>
 
+          {/* QUICK LINKS */}
           <div className="mt-6">
-            <h4 className="text-sm font-medium text-foreground mb-2">
+            <h4 className="text-sm font-medium text-white mb-3">
               Quick Links
             </h4>
 
-            <ul className="text-sm space-y-1">
+            <ul className="space-y-2 text-sm">
               <li>
-                <a href="/about" className="hover:underline">About</a>
+                <Link to="/about" className="hover:text-white transition">
+                  About
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:underline">Contact</a>
+                <Link to="/contact" className="hover:text-white transition">
+                  Contact
+                </Link>
               </li>
               <li>
-                <a href="/technology" className="hover:underline">Technology</a>
+                <Link to="/technology" className="hover:text-white transition">
+                  Technology
+                </Link>
               </li>
               <li>
-                <a href="/politics" className="hover:underline">Politics</a>
+                <Link to="/politics" className="hover:text-white transition">
+                  Politics
+                </Link>
               </li>
             </ul>
           </div>
 
-          <div className="mt-6 flex items-center gap-2 text-xs text-muted-foreground">
+          {/* DEVELOPER TAG */}
+          <div className="mt-6 flex items-center gap-2 text-xs text-gray-500">
             <Code size={14} />
-            <span>Built & maintained by Shreya — CSE</span>
+            <span>Built & maintained by Shreya Kumari — CSE</span>
           </div>
         </div>
       </div>
