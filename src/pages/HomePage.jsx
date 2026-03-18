@@ -26,106 +26,91 @@ const HomePage = () => {
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // Hero subtle reveal
     gsap.from(heroRef.current, {
-      opacity: 1,
-      y: 36,
-      duration: 0.9,
+      opacity: 0,
+      y: 40,
+      duration: 1,
       ease: "power3.out",
     });
 
-    // Parallax-ish subtle move
     gsap.to(heroRef.current, {
-      y: 70,
+      y: 60,
       scrollTrigger: {
         trigger: heroRef.current,
         start: "top top",
         end: "bottom top",
-        scrub: 1.2,
+        scrub: 1,
       },
     });
 
-    // Article cards appear on scroll
-    const articleCards = articlesRef.current?.querySelectorAll(".article-card");
-    articleCards?.forEach((card, i) => {
+    const cards = articlesRef.current?.querySelectorAll(".article-card");
+    cards?.forEach((card, i) => {
       gsap.from(card, {
         opacity: 0,
         y: 30,
         duration: 0.8,
-        delay: i * 0.06,
+        delay: i * 0.08,
         scrollTrigger: {
           trigger: card,
           start: "top 85%",
-          toggleActions: "play none none reverse",
         },
       });
     });
 
-    // Map reveal
     if (mapRef.current) {
       gsap.from(mapRef.current, {
         opacity: 0,
         scale: 0.98,
-        duration: 0.9,
+        duration: 1,
         scrollTrigger: {
           trigger: mapRef.current,
           start: "top 75%",
-          toggleActions: "play none none reverse",
         },
       });
     }
   }, []);
 
-  // Featured articles — ordered as requested (Jaishankar, Devendra Sharma, Chandrakant Jha, John Wayne Gacy, Dahmer)
-const featuredArticles = [
+  const featuredArticles = [
     {
       id: 1,
-       title: "Devendra Sharma: The Confession Killer",
-       description:
-        "A shocking story of a man who confessed to murdering his own family in cold blood.",
-      image:
-        "https://static.toiimg.com/thumb/msid-121307273,width-1280,height-720,resizemode-72/121307273.jpg",
+      title: "Devendra Sharma: The Confession Killer",
+      description: "A shocking story of a man who confessed to murdering his own family.",
+      image: "https://static.toiimg.com/thumb/msid-121307273,width-1280,height-720,resizemode-72/121307273.jpg",
       category: "Court Judgments",
       readTime: "8 min",
       link: "/article/jaishankar",
     },
     {
       id: 2,
-      title: "John Wayne Gacy: The Killer Who Smiled Like a Clown",
-      description:
-        "The chilling double life of a friendly neighbour and the monster beneath the paint.",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt7DURjqsgYsE5_ePtxJb1RzjbFrJRjiJCDQ&s",
+      title: "John Wayne Gacy: The Killer Clown",
+      description: "The chilling double life of a friendly neighbour and hidden monster.",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt7DURjqsgYsE5_ePtxJb1RzjbFrJRjiJCDQ&s",
       category: "Serial Killers",
       readTime: "12 min",
       link: "/article/sharma",
     },
     {
       id: 3,
-       title: "Jeffrey Dahmer: The Quiet Man with a Deadly Secret",
-      description:
-        "A plain-looking neighbour whose apartment hid a house of horror — Dahmer's story.",
-      image:
-        "https://upload.wikimedia.org/wikipedia/en/0/0c/Jeffrey_Dahmer_Milwaukee_Police_1991_mugshot.jpg",
+      title: "Jeffrey Dahmer: House of Horror",
+      description: "A quiet man hiding unimaginable crimes behind closed doors.",
+      image: "https://upload.wikimedia.org/wikipedia/en/0/0c/Jeffrey_Dahmer_Milwaukee_Police_1991_mugshot.jpg",
       category: "Serial Killers",
       readTime: "12 min",
       link: "/article/jha",
     },
     {
       id: 4,
-      title: "Chandrakant Jha: The Butcher Who Taunted Delhi",
-      description:
-        "A predator who lived among migrant labourers and left the city reeling with staged murders.",
-      image:
-        "https://akm-img-a-in.tosshub.com/indiatoday/images/story/201302/chandrakant_jha--1_660_021913115051.jpg",
+      title: "Chandrakant Jha: Delhi Butcher",
+      description: "A serial killer who taunted police with staged murders.",
+      image: "https://akm-img-a-in.tosshub.com/indiatoday/images/story/201302/chandrakant_jha--1_660_021913115051.jpg",
       category: "True Crime",
       readTime: "9 min",
       link: "/article/gacy",
     },
     {
       id: 5,
-      title: "M. Jaishankar: The Cyanide Killer of India",
-      description: "How a charming NRI persona hid a brutal murderer.",
+      title: "M. Jaishankar: Cyanide Killer",
+      description: "A charming personality masking deadly intentions.",
       image: "https://images.indianexpress.com/2018/03/jaishankar.jpg",
       category: "Serial Killers",
       readTime: "10 min",
@@ -133,20 +118,12 @@ const featuredArticles = [
     },
   ];
 
-  const indianCrimeHotspots = [
-    { city: "Delhi", cases: 245, top: "42%", left: "42%" },
-    { city: "Mumbai", cases: 189, top: "58%", left: "30%" },
-    { city: "Bangalore", cases: 134, top: "70%", left: "46%" },
-    { city: "Kolkata", cases: 167, top: "40%", left: "66%" },
-    { city: "Chennai", cases: 123, top: "74%", left: "53%" },
-  ];
-
   const recommendedReads = [
     "The Psychology of Serial Killers",
-    "Forensic Science in Modern Crime",
-    "Unsolved Mysteries of the 90s",
-    "Death Penalty Debates in India",
-    "Criminal Profiling Techniques",
+    "Forensic Science in Crime",
+    "Unsolved Mysteries",
+    "Death Penalty Debates",
+    "Criminal Profiling",
   ];
 
   return (
@@ -157,197 +134,117 @@ const featuredArticles = [
       {/* HERO */}
       <section
         ref={heroRef}
-        className="relative h-[85vh] flex items-center justify-center overflow-hidden"
+        className="relative h-[85vh] flex items-center justify-center"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1617906855223-a69f14c9841d')",
+            "linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1504711434969-e33886168f5c')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div className="relative z-10 w-full max-w-5xl text-center px-6">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight drop-shadow-lg">
-            Crime &amp; Carnage
-          </h1>
-          <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-            True stories of darkness — crime, courts, and the human stories behind them.
+        <div className="text-center px-6">
+          <img src="/logo.png" className="h-16 mx-auto mb-4 opacity-90" />
+          <h1 className="text-5xl font-extrabold">S53 News</h1>
+          <p className="mt-3 text-gray-300">
+            Truth • Crime • Reality
           </p>
 
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/cases" className="w-max">
-              <button className="bg-[#a00000] hover:bg-[#8b0000] text-white font-semibold px-6 py-3 rounded-md shadow-lg transition">
-                Explore Cases <ArrowRight className="inline-block ml-2" size={16} />
+          <div className="mt-6 flex gap-4 justify-center flex-wrap">
+            <Link to="/cases">
+              <button className="bg-[#a00000] px-6 py-3 rounded-md hover:bg-[#8b0000]">
+                Explore Cases
               </button>
             </Link>
-
-            <Link to="/about" className="w-max">
-              <button className="border border-[#333] text-gray-200 px-5 py-3 rounded-md hover:bg-[#111] transition">
-                About the Author
+            <Link to="/about">
+              <button className="border border-[#333] px-6 py-3 rounded-md hover:bg-[#111]">
+                About
               </button>
             </Link>
           </div>
-
-          <p className="mt-6 text-sm text-gray-400">
-            Created by <span className="font-semibold">Arpit Dev Mishra</span> — 3rd year Mass Com, CUJ, Ranchi.
-          </p>
         </div>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-black/60 pointer-events-none" />
       </section>
 
       {/* MAIN */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* LEFT: main content */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold">Featured Cases</h2>
-              <Badge className="bg-[#a00000] text-white px-3 py-1">Latest</Badge>
-            </div>
+      <main className="max-w-7xl mx-auto px-4 py-12 grid lg:grid-cols-3 gap-8">
+        
+        {/* LEFT */}
+        <div className="lg:col-span-2">
+          <h2 className="text-3xl font-bold mb-6">Featured Cases</h2>
 
-            {/* cards grid */}
-            <div ref={articlesRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredArticles.map((a) => (
-                <Link key={a.id} to={a.link} className="group">
-                  <Card className="article-card bg-[#111] border border-[#222] overflow-hidden rounded-lg transform transition hover:-translate-y-1 hover:shadow-2xl h-full flex flex-col">
-                    <div className="relative h-44">
-                      <img
-                        src={a.image}
-                        alt={a.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute top-3 right-3">
-                        <Badge className="bg-[#a00000] text-white">{a.category}</Badge>
-                      </div>
-                    </div>
+          <div ref={articlesRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredArticles.map((a) => (
+              <Link key={a.id} to={a.link} className="group">
+                <Card className="article-card bg-[#111] border border-[#222] hover:border-[#a00000] transition rounded-lg overflow-hidden flex flex-col">
 
-                    <CardHeader className="px-4 pt-4">
-                      <CardTitle className="text-lg font-semibold text-white line-clamp-2">{a.title}</CardTitle>
-                      <CardDescription className="text-sm text-gray-300 line-clamp-2">{a.description}</CardDescription>
-                    </CardHeader>
-
-                    <CardFooter className="px-4 py-3 mt-auto flex items-center justify-between text-sm text-gray-400">
-                      <div className="flex items-center gap-2">
-                        <Clock size={14} />
-                        <span>{a.readTime}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Eye size={14} />
-                        <span>Read More</span>
-                      </div>
-                    </CardFooter>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-
-            {/* MAP */}
-            <section ref={mapRef} className="mt-12">
-              <h3 className="text-2xl font-bold mb-4">Crime Hotspots in India</h3>
-              <Card className="bg-[#111] border border-[#222]">
-                <CardContent>
-                  <div className="relative h-[420px] rounded-lg overflow-hidden bg-[#0b0b0c]">
-
-                    {/* Google Maps Embed */}
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14676.615690340335!2d85.3095625!3d23.3440996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398e45d1a08893bf%3A0xe0f1fa89f592eff!2sRanchi%2C%20Jharkhand!5e0!3m2!1sen!2sin!4v1731986500000!5m2!1sen!2sin"
-                      className="w-full h-full border-0"
-                      loading="lazy"
-                      allowFullScreen
-                      referrerPolicy="no-referrer-when-downgrade"
-                      title="Ranchi map"
-                    ></iframe>
-
-                    {/* Optional Dark Overlay for theme consistency */}
-                    <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+                  <div className="relative h-44">
+                    <img src={a.image} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <Badge className="absolute top-2 right-2 bg-[#a00000]">{a.category}</Badge>
                   </div>
 
-                  <p className="text-sm text-gray-400 mt-4 flex items-center gap-2 justify-center">
-                    <MapPin size={14} />
-                    Interactive Map — zoom or drag to explore hotspots
-                  </p>
-                </CardContent>
-              </Card>
-            </section>
+                  <CardHeader>
+                    <CardTitle className="text-white text-lg">{a.title}</CardTitle>
+                    <CardDescription className="text-gray-300">{a.description}</CardDescription>
+                  </CardHeader>
+
+                  <CardFooter className="flex justify-between text-gray-400 text-sm">
+                    <span className="flex items-center gap-1"><Clock size={14} />{a.readTime}</span>
+                    <span className="flex items-center gap-1">Read <ArrowRight size={14} /></span>
+                  </CardFooter>
+
+                </Card>
+              </Link>
+            ))}
           </div>
 
-          {/* RIGHT: sidebar */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6">
-              <Card className="bg-[#111] border border-[#222]">
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold">About the Author</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm text-gray-300">
-                    Crime &amp; Carnage — created and maintained by <strong>Arpit Dev Mishra</strong>, 3rd year Mass Communication, CUJ Ranchi.
-                  </p>
-
-                  <div className="flex items-center gap-3 text-sm text-gray-300">
-                    <Mail size={16} />
-                    <a href="mailto:devarpit04@gmail.com" className="hover:underline text-gray-200">devarpit04@gmail.com</a>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-sm text-gray-300">
-                    <Phone size={16} />
-                    <a href="tel:+917992405363" className="hover:underline text-gray-200">+91 79924 05363</a>
-                  </div>
-
-                  <div className="text-sm text-gray-300">
-                    <MapPin size={14} className="inline mr-2 -mt-1" />
-                    Ranchi, CUJ, India
-                  </div>
-
-                  <div className="pt-3">
-                    <Link to="/contact">
-                      <Button className="w-full bg-[#a00000] hover:bg-[#8b0000] text-white">Contact / Tips</Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-[#111] border border-[#222]">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold">Recommended Reads</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    {recommendedReads.map((r, i) => (
-                      <li key={i}>
-                        <a className="flex items-center gap-2 text-gray-300 hover:text-white" href="#">
-                          <ArrowRight size={14} />
-                          <span>{r}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-[#111] border border-[#222]">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold">Categories</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-2">
-                    <Link to="/serial-killers">
-                      <Badge className="bg-transparent border border-[#333] text-gray-300 hover:bg-[#a00000] hover:text-white">Serial Killers</Badge>
-                    </Link>
-                    <Link to="/cold-cases">
-                      <Badge className="bg-transparent border border-[#333] text-gray-300 hover:bg-[#a00000] hover:text-white">Cold Cases</Badge>
-                    </Link>
-                    <Link to="/court-judgments">
-                      <Badge className="bg-transparent border border-[#333] text-gray-300 hover:bg-[#a00000] hover:text-white">Court Judgments</Badge>
-                    </Link>
-                    <Link to="/forensics">
-                      <Badge className="bg-transparent border border-[#333] text-gray-300 hover:bg-[#a00000] hover:text-white">Forensics</Badge>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </aside>
+          {/* MAP */}
+          <section ref={mapRef} className="mt-12">
+            <h3 className="text-2xl font-bold mb-4">Crime Hotspots</h3>
+            <Card className="bg-[#111] border border-[#222]">
+              <CardContent>
+                <iframe
+                  src="https://www.google.com/maps?q=India&output=embed"
+                  className="w-full h-[400px] rounded"
+                />
+                <p className="text-gray-400 text-sm mt-3 text-center">
+                  <MapPin size={14} className="inline mr-1" />
+                  Explore crime regions interactively
+                </p>
+              </CardContent>
+            </Card>
+          </section>
         </div>
+
+        {/* SIDEBAR */}
+        <aside className="space-y-6">
+          
+          <Card className="bg-[#111] border border-[#222]">
+            <CardHeader>
+              <CardTitle>About</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm text-gray-300 space-y-2">
+              <p><strong>S53 News</strong> — Crime journalism platform.</p>
+              <p><Mail size={14} className="inline mr-1" /> contact@s53.com</p>
+              <p><Phone size={14} className="inline mr-1" /> +91 XXXXX XXXXX</p>
+              <p><MapPin size={14} className="inline mr-1" /> Ranchi, India</p>
+              <Button className="w-full bg-[#a00000] mt-3">Contact</Button>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-[#111] border border-[#222]">
+            <CardHeader>
+              <CardTitle>Recommended</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {recommendedReads.map((r, i) => (
+                <p key={i} className="text-gray-300 hover:text-white cursor-pointer flex gap-2">
+                  <ArrowRight size={14} /> {r}
+                </p>
+              ))}
+            </CardContent>
+          </Card>
+
+        </aside>
       </main>
 
       <Footer />
