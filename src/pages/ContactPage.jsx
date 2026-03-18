@@ -79,7 +79,7 @@ const ContactPage = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "linear-gradient(180deg, rgba(0,0,0,0.80), rgba(0,0,0,0.92)), url('/Arpit.png')",
+              "linear-gradient(180deg, rgba(0,0,0,0.80), rgba(0,0,0,0.92)), url('/Shreya_P.jpeg')",
           }}
         />
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
@@ -105,7 +105,7 @@ const ContactPage = () => {
             <Card className="bg-card border-border overflow-hidden">
               <div className="relative h-56 sm:h-64 md:h-48 lg:h-56">
                 <img
-                  src="/Arpit.png"
+                  src="/Shreya_P.jpeg"
                   alt="Editorial team"
                   className="w-full h-full object-cover"
                 />
@@ -147,7 +147,7 @@ const ContactPage = () => {
                     <div className="mt-2 flex gap-2">
                       <a
                         className="text-sm px-3 py-1 rounded-md bg-muted/10 hover:bg-muted transition"
-                        href="mailto:devarpit04@gmail.com"
+                        href="mailto:shreya230206@gmail.com"
                       >
                         Email Now
                       </a>
